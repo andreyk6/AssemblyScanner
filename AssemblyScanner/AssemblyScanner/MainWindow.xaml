@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AssemblyScanner"
+        ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="AssemblyScanner" Height="130" Width="380" Loaded="Window_Loaded">
+    <Grid Margin="0,0,0,0">
+        <Label Content="Type name:" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Height="33" Width="150"/>
+        <TextBox x:Name="TypeNameTextBox" Text="AssemblyScanner.Car" HorizontalAlignment="Left" Height="19" Margin="100,18,0,0" TextWrapping="Wrap" Width="258" MaxLines="1" IsUndoEnabled="False" VerticalAlignment="Top"/>
+        <Button x:Name="CreateObjectButton"  Click="CreateObjectButton_Click" Content="Create object" HorizontalAlignment="Left" Margin="238,55,0,0" VerticalAlignment="Top" Width="120" Height="27"/>
+
     </Grid>
 </Window>
