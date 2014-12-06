@@ -21,6 +21,10 @@ namespace AssemblyScanner
         {
             lock (lockToken)
             {
+                /*
+                Use PLINQ because it automatically choose between synchronous and asynchronous way
+                */
+
                 //Select all types from all assemblys where type have default ctor 
                 SupportedTypes = (from asm in AppDomain.CurrentDomain.GetAssemblies().AsParallel() //All assemblys
                                   from type in asm.GetTypes().AsParallel() //All types
