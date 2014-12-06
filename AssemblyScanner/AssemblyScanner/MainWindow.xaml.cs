@@ -29,17 +29,36 @@ namespace AssemblyScanner
        
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            StateLable.Content = "Searching for supported types...";
+
+            //Scann assemblys
             await Task.Run((Scanner.ScanAssemblys));
+
+            //Display all types names
+            AddTypesToListView();
+
+            StateLable.Content = "Select type:";
+
+        }
+
+        private void AddTypesToListView()
+        {
+            //Add types ordered by fullName 
+            foreach (var typeName in Scanner.SupportedTypes.Keys.OrderBy((t) => t.FullName))
+                TypesListView.Items.Add(typeName.FullName);
         }
 
         private void CreateObjectButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                Type objType = Scanner.SupportedTypes.First((x) => (x.Key.ToString() == TypeNameTextBox.Text)).Key;
+                //Get ctor from dictionary
+                Type objType = Scanner.SupportedTypes.First((x) => (x.Key.FullName == TypesListView.SelectedItem.ToString())).Key;
+
+                //Create object 
                 dynamic obj = objType.Create();
 
-                MessageBox.Show("Instanse was created: \n" + obj.ToString());
+                MessageBox.Show("Instanse is created: \n" + obj.ToString());
             }
             catch (Exception ex)
             {

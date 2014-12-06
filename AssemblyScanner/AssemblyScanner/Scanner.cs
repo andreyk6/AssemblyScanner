@@ -22,10 +22,11 @@ namespace AssemblyScanner
             lock (lockToken)
             {
                 //Select all types from all assemblys where type have default ctor 
-                SupportedTypes = (from asm in AppDomain.CurrentDomain.GetAssemblies().AsParallel()
-                                from type in asm.GetTypes().AsParallel()
-                                where (type.GetConstructor(Type.EmptyTypes) != null)
-                                select type).ToDictionary((type) => type, (type) => type.GetConstructor(Type.EmptyTypes));
+                SupportedTypes = (from asm in AppDomain.CurrentDomain.GetAssemblies().AsParallel() //All assemblys
+                                  from type in asm.GetTypes().AsParallel() //All types
+                                  where (type.GetConstructor(Type.EmptyTypes) != null)
+                                  select type //With default ctor
+                                ).ToDictionary((type) => type, (type) => type.GetConstructor(Type.EmptyTypes)); //Format as dictionary (type,ctor)
             }
         }
 
