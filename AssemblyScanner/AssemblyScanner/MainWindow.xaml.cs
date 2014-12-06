@@ -26,11 +26,10 @@ namespace AssemblyScanner
         {
             InitializeComponent();
         }
-
        
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Run((Scanner.Initialize));
+            await Task.Run((Scanner.ScanAssemblys));
         }
 
         private void CreateObjectButton_Click(object sender, RoutedEventArgs e)
@@ -40,7 +39,7 @@ namespace AssemblyScanner
                 Type objType = Scanner.SupportedTypes.First((x) => (x.Key.ToString() == TypeNameTextBox.Text)).Key;
                 dynamic obj = objType.Create();
 
-                MessageBox.Show("Type created: \n" + obj.ToString());
+                MessageBox.Show("Instanse was created: \n" + obj.ToString());
             }
             catch (Exception ex)
             {
