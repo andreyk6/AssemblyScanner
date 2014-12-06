@@ -32,7 +32,7 @@ namespace AssemblyScanner
             StateLable.Content = "Searching for supported types...";
 
             //Scann assemblys
-            await Task.Run((Scanner.ScanAssemblys));
+            await Scanner.ScanAssemblys();
 
             //Display all types names
             AddTypesToListView();

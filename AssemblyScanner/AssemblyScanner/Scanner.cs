@@ -17,21 +17,26 @@ namespace AssemblyScanner
 
         public static Dictionary<Type, ConstructorInfo> SupportedTypes = new Dictionary<Type, ConstructorInfo>();
 
-        public static async Task ScanAssemblys()
+        public static Task ScanAssemblys()
         {
-            lock (lockToken)
+            return Task.Run(() =>
             {
-                /*
-                Use PLINQ because it automatically choose between synchronous and asynchronous way
-                */
+                Thread.Sleep(10000);
+                lock (lockToken)
+                {
+                    /*
+                    Use PLINQ because it automatically choose between synchronous and asynchronous way
+                    */
 
-                //Select all types from all assemblys where type have default ctor 
-                SupportedTypes = (from asm in AppDomain.CurrentDomain.GetAssemblies().AsParallel() //All assemblys
-                                  from type in asm.GetTypes().AsParallel() //All types
-                                  where (type.GetConstructor(Type.EmptyTypes) != null)
-                                  select type //With default ctor
-                                ).ToDictionary((type) => type, (type) => type.GetConstructor(Type.EmptyTypes)); //Format as dictionary (type,ctor)
+                    //Select all types from all assemblys where type have default ctor 
+                    SupportedTypes = (from asm in AppDomain.CurrentDomain.GetAssemblies().AsParallel() //All assemblys
+                                      from type in asm.GetTypes().AsParallel() //All types
+                                      where (type.GetConstructor(Type.EmptyTypes) != null)
+                                      select type //With default ctor
+                                    ).ToDictionary((type) => type, (type) => type.GetConstructor(Type.EmptyTypes)); //Format as dictionary (type,ctor)
+                }
             }
+            );
         }
 
         public static Object Create(this Type sourceType)
